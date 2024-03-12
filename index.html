@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Ingredientes para Pizza</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.2);
+            padding: 20px;
+            max-width: 400px;
+            width: 100%;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 8px;
+        }
+        input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .resultado {
+            display: none;
+            margin-top: 20px;
+            border-top: 1px solid #ccc;
+            padding-top: 20px;
+        }
+        .resultado p {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Calculadora de Ingredientes para Pizza</h1>
+        <form id="pizzaForm">
+            <label for="cantidadBollos">Cantidad de Bollos:</label>
+            <input type="number" id="cantidadBollos" name="cantidadBollos" required min="1">
+            <label for="hidratacion">Porcentaje de Hidratación (%) :</label>
+            <input type="number" id="hidratacion" name="hidratacion" required min="0">
+            <button type="submit">Calcular</button>
+        </form>
+
+        <div class="resultado" id="resultado">
+            <h2>Resultado</h2>
+            <p id="harinaResultado"></p>
+            <p id="aguaResultado"></p>
+            <p id="levaduraResultado"></p>
+            <p id="salResultado"></p>
+            <p id="bollosResultado"></p>
+            <p id="pesoTotalBollo"></p>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('pizzaForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            var cantidadBollos = parseFloat(document.getElementById('cantidadBollos').value);
+            var porcentajeHidratacion = parseFloat(document.getElementById('hidratacion').value);
+
+            // Calcular cantidades de ingredientes
+            var harinaTotal = 312 * cantidadBollos / 2;
+            var aguaTotal = ((harinaTotal * porcentajeHidratacion) / 100).toFixed(2); // Convertir el porcentaje de agua a gramos
+            var levaduraTotal = (harinaTotal / 312).toFixed(2); // 312 gramos de harina necesitan 1 gramo de levadura
+            var salTotal = 8 * cantidadBollos / 2; // 8 gramos de sal por cada bollo
+
+            // Calcular peso total del bollo
+            var pesoTotalBollo = parseFloat(harinaTotal) + parseFloat(aguaTotal) + parseFloat(levaduraTotal) + parseFloat(salTotal);
+
+            document.getElementById('harinaResultado').textContent = 'Harina necesaria: ' + harinaTotal + ' gramos';
+            document.getElementById('aguaResultado').textContent = 'Agua necesaria: ' + aguaTotal + ' gramos';
+            document.getElementById('levaduraResultado').textContent = 'Levadura necesaria: ' + levaduraTotal + ' gramos';
+            document.getElementById('salResultado').textContent = 'Sal necesaria: ' + salTotal + ' gramos';
+            document.getElementById('bollosResultado').textContent = 'Cantidad de bollos: ' + cantidadBollos;
+            document.getElementById('pesoTotalBollo').textContent = 'Peso total del bollo: ' + pesoTotalBollo.toFixed(2) + ' gramos';
+
+            document.getElementById('resultado').style.display = 'block';
+        });
+    </script>
+</body>
+</html>
